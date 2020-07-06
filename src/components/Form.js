@@ -44,15 +44,33 @@ const Button = styled.button`
 
 const Form = () => {
     const [data, setData] = useState({
-        
+        brand: '',
+        year: '',
+        plan: ''
     });
+
+    // Extract the values
+    const { brand, year, plan } = data; 
+
+    // Read the form data y set state
+    const getInfo = e => {
+        setData({
+            ...data,
+            [e.target.name]: e.target.value
+        })
+    }
+
 
 
     return ( 
         <form>
             <Field>
                 <Label>Brand</Label>
-                <Select>
+                <Select
+                    name="brand"
+                    value={brand}
+                    onChange={getInfo}
+                >
                     <option value="">-- Select --</option>
                     <option value="american">American</option>
                     <option value="european">European</option>
@@ -62,7 +80,11 @@ const Form = () => {
 
             <Field>
                 <Label>Year</Label>
-                <Select>
+                <Select
+                    name="year"
+                    value={year}
+                    onChange={getInfo}
+                >
                     <option value="">-- Select --</option>
                     <option value="2021">2021</option>
                     <option value="2020">2020</option>
@@ -83,12 +105,16 @@ const Form = () => {
                     type="radio"
                     name="plan"
                     value="basic"
+                    checked={plan === "basic"}
+                    onChange={getInfo}
                 /> Basic
 
                 <Input
                     type="radio"
                     name="plan"
                     value="full"
+                    checked={plan === "full"}
+                    onChange={getInfo}
                 /> Full
             </Field>
 
