@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 
 import { getDifferenceYear, calculateBrand, getPlan } from '../helper';
 
@@ -110,7 +111,7 @@ const Form = ({ setSummary, setLoader }) => {
         
             // Total
             setSummary({
-                quotation: result,
+                quotation: Number(result),
                 data,
             })
         }, 3000);
@@ -185,6 +186,11 @@ const Form = ({ setSummary, setLoader }) => {
             <Button type="submit">Quote</Button>
         </form>
      );
+}
+
+Form.propTypes = {
+    setSummary: PropTypes.func.isRequired,
+    setLoader: PropTypes.func.isRequired
 }
  
 export default Form;
