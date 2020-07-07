@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
+import { getDifferenceYear, calculateBrand, getPlan } from '../helper';
+
 const Field = styled.div`
     display: flex;
     margin-bottom: 1rem;
@@ -42,12 +44,23 @@ const Button = styled.button`
     }
 `;
 
+const Error = styled.div`
+    background-color: red;
+    color: white;
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+`
+
 const Form = () => {
     const [data, setData] = useState({
         brand: '',
         year: '',
         plan: ''
     });
+
+    const [error, setError] = useState(false);
 
     // Extract the values
     const { brand, year, plan } = data; 
@@ -58,12 +71,55 @@ const Form = () => {
             ...data,
             [e.target.name]: e.target.value
         })
-    }
+    };
 
+    // Submit event
+    const handleSubmit = e => {
+        e.preventDefault();
+        
+        if (brand.trim() === '' || year.trim() === '' || plan.trim() === '') {
+            setError(true);
+            return;
+        }
+        setError(false);
+
+        // Base 2000
+        let result = 2000;
+
+        // Obtain difference of years
+        const difference = getDifferenceYear(year);
+
+        // For each year 3% must be subtracted
+        result -= (( difference*3) * result) / 100;
+
+        // American 15%
+        //  Asian 5%
+        //  European 30%
+        result = calculateBrand(brand)*result;
+
+
+        // Basic plan increases by 20%
+        // Full plan increases by 50%
+        const increasePlan = getPlan(plan);
+        result = parseFloat(increasePlan * result).toFixed(2);
+        console.log(result);
+
+
+        // Total
+    };
 
 
     return ( 
-        <form>
+        <form
+            onSubmit={handleSubmit}
+        >
+            {error ?
+                <Error>
+                    All fields are required
+                </Error>
+                : null 
+                
+            }
             <Field>
                 <Label>Brand</Label>
                 <Select
@@ -118,7 +174,7 @@ const Form = () => {
                 /> Full
             </Field>
 
-            <Button type="button">Quote</Button>
+            <Button type="submit">Quote</Button>
         </form>
      );
 }
