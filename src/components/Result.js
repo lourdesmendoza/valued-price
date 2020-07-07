@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const Message = styled.p`
     background-color: rgb(127, 224, 237);
@@ -32,7 +33,18 @@ const Result = ({ quotation}) => {
             ? <Message>Choose brand, year and plan</Message> 
             : ( 
                 <ResultQuotation>
-                    <TextQuotes>The total is: ${quotation}</TextQuotes>
+                    <TransitionGroup
+                        component="p"
+                        className="resultado"
+                    >
+                        <CSSTransition
+                            classNames="resultado"
+                            key={quotation}
+                            timeout={{ enter: 500, exit: 500 }}
+                        >
+                            <TextQuotes>The total is: ${quotation}</TextQuotes>
+                        </CSSTransition>
+                    </TransitionGroup>
                 </ResultQuotation>
             )
     )
