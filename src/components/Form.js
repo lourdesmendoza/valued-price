@@ -164,16 +164,16 @@ const Form = ({ setSummary }) => {
                 <Input
                     type="radio"
                     name="plan"
-                    value="basic"
-                    checked={plan === "basic"}
+                    value="Basic"
+                    checked={plan === "Basic"}
                     onChange={getInfo}
                 /> Basic
 
                 <Input
                     type="radio"
                     name="plan"
-                    value="full"
-                    checked={plan === "full"}
+                    value="Full"
+                    checked={plan === "Full"}
                     onChange={getInfo}
                 /> Full
             </Field>
