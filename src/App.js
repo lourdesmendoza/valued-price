@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Form from './components/Form';
 import Summary from './components/Summary';
 import Result from './components/Result';
+import Spinner from './components/Spinner';
 
 const Content = styled.div`
 	max-width: 600px;
@@ -26,6 +27,8 @@ function App() {
 			plan: ''
 		}
 	});
+
+	const [loader, setLoader] = useState(false);
 	
 	// Geet data
 	const { data, quotation } = summary;
@@ -38,15 +41,26 @@ function App() {
 				<ContentForm>
 					<Form 
 						setSummary={setSummary}
+						setLoader={setLoader}
 					/>
+
+					{loader ?
+						<Spinner
+						/>
+						:
+						null
+					}
 
 					<Summary
 						data={data}
 					/>
 					
-					<Result
-						quotation={quotation}
-					/>
+					{!loader ?
+						<Result
+							quotation={quotation}
+						/> : null
+					}
+					
 				</ContentForm>
 		</Content>
 	);
